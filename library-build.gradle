@@ -1,4 +1,4 @@
-// kotlin/java library build.gradle
+// kotlin/java library build.gradle.kts
 
 apply plugin: 'java-library'
 apply plugin: 'org.jetbrains.kotlin.jvm'
