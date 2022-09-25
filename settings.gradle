@@ -13,13 +13,16 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "DotaInfo"
+
 include ':app'
-include ':constants'
+
 include ':core'
+include ':constants'
+include ':components'
 include ':hero'
-include ':hero:hero-datasource'
 include ':hero:hero-domain'
+include ':hero:hero-datasource'
+include ':hero:hero-datasource-test'
 include ':hero:hero-interactors'
-include ':hero:hero-datasource_test'
 include ':hero:ui-heroList'
-include ':hero:ui-heroList'
+include ':hero:ui-heroDetail'
