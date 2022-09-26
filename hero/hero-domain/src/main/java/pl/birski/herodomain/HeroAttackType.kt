@@ -17,16 +17,8 @@ sealed class HeroAttackType(
     )
 }
 
-fun getHeroAttackType(uiValue: String): HeroAttackType {
-    return when (uiValue) {
-        HeroAttackType.Melee.uiValue -> {
-            HeroAttackType.Melee
-        }
-        HeroAttackType.Ranged.uiValue -> {
-            HeroAttackType.Ranged
-        }
-        else -> {
-            HeroAttackType.Unknown
-        }
-    }
+fun getHeroAttackType(uiValue: String) = when (uiValue) {
+    HeroAttackType.Melee.uiValue -> HeroAttackType.Melee
+    HeroAttackType.Ranged.uiValue -> HeroAttackType.Ranged
+    else -> HeroAttackType.Unknown
 }

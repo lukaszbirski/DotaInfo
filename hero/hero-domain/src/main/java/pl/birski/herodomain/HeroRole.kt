@@ -45,37 +45,15 @@ sealed class HeroRole(
     )
 }
 
-fun getHeroRole(uiValue: String): HeroRole {
-    return when (uiValue) {
-        HeroRole.Carry.uiValue -> {
-            HeroRole.Carry
-        }
-        HeroRole.Escape.uiValue -> {
-            HeroRole.Escape
-        }
-        HeroRole.Nuker.uiValue -> {
-            HeroRole.Nuker
-        }
-        HeroRole.Initiator.uiValue -> {
-            HeroRole.Initiator
-        }
-        HeroRole.Durable.uiValue -> {
-            HeroRole.Durable
-        }
-        HeroRole.Disabler.uiValue -> {
-            HeroRole.Disabler
-        }
-        HeroRole.Jungler.uiValue -> {
-            HeroRole.Jungler
-        }
-        HeroRole.Support.uiValue -> {
-            HeroRole.Support
-        }
-        HeroRole.Pusher.uiValue -> {
-            HeroRole.Pusher
-        }
-        else -> {
-            HeroRole.Unknown
-        }
-    }
+fun getHeroRole(uiValue: String) = when (uiValue) {
+    HeroRole.Carry.uiValue -> HeroRole.Carry
+    HeroRole.Escape.uiValue -> HeroRole.Escape
+    HeroRole.Nuker.uiValue -> HeroRole.Nuker
+    HeroRole.Initiator.uiValue -> HeroRole.Initiator
+    HeroRole.Durable.uiValue -> HeroRole.Durable
+    HeroRole.Disabler.uiValue -> HeroRole.Disabler
+    HeroRole.Jungler.uiValue -> HeroRole.Jungler
+    HeroRole.Support.uiValue -> HeroRole.Support
+    HeroRole.Pusher.uiValue -> HeroRole.Pusher
+    else -> HeroRole.Unknown
 }
