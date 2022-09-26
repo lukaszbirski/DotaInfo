@@ -15,15 +15,14 @@ class Logger(
     companion object Factory {
         fun buildDebug(className: String) = Logger(
             tag = className,
-            isDebug = true,
+            isDebug = true
         )
 
         fun buildRelease(className: String) = Logger(
             tag = className,
-            isDebug = false,
+            isDebug = false
         )
     }
-
 }
 
 private fun printLog(tag: String, msg: String) {
