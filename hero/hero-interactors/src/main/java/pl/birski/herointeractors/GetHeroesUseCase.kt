@@ -5,11 +5,12 @@ import kotlinx.coroutines.flow.flow
 import pl.birski.core.DataState
 import pl.birski.core.ProgressBarState
 import pl.birski.core.UIComponent
+import pl.birski.herodatasource.cache.HeroCache
 import pl.birski.herodatasource.network.HeroService
 import pl.birski.herodomain.Hero
 
 class GetHeroesUseCase(
-    // TODO(Add caching)
+    private val cache: HeroCache,
     private val service: HeroService
 ) {
 
@@ -23,7 +24,12 @@ class GetHeroesUseCase(
                 emit(emitErrorDataState("Network error", e))
                 listOf()
             }
-            emit(DataState.Data(heroes))
+
+            cache.insert(heroes)
+
+            val cachedHeroes = cache.selectAll()
+
+            emit(DataState.Data(cachedHeroes))
         } catch (e: Exception) {
             e.printStackTrace()
             emit(emitErrorDataState("title", e))
