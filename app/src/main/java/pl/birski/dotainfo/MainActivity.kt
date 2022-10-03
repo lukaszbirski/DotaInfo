@@ -6,11 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import coil.ImageLoader
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import pl.birski.core.DataState
 import pl.birski.core.Logger
-import pl.birski.core.ProgressBarState
 import pl.birski.core.UIComponent
 import pl.birski.dotainfo.ui.theme.DotaInfoTheme
 import pl.birski.herointeractors.UseCaseFactory
@@ -28,9 +26,17 @@ import pl.birski.uiherolist.components.HeroList
 class MainActivity : ComponentActivity() {
 
     private val state: MutableState<HeroListState> = mutableStateOf(HeroListState())
+    private lateinit var imageLoader: ImageLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        imageLoader = ImageLoader.Builder(applicationContext)
+            .error(R.drawable.error_image)
+            .placeholder(R.drawable.white_background)
+            .availableMemoryPercentage(0.25)
+            .crossfade(true)
+            .build()
 
         val getHeroesUseCase = UseCaseFactory.build(
             sqlDriver = AndroidSqliteDriver(
@@ -67,28 +73,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    HeroListCompose(
-                        state = state.value
+                    HeroList(
+                        state = state.value,
+                        imageLoader = imageLoader
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun HeroListCompose(state: HeroListState) {
-    HeroList(state = state)
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    val state: HeroListState = HeroListState(
-        progressBarState = ProgressBarState.Idle,
-        heroes = listOf()
-    )
-    DotaInfoTheme {
-        HeroList(state = state)
     }
 }

@@ -1,8 +1,10 @@
 package pl.birski.uiherolist.components
 
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,19 +18,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import pl.birski.herodomain.Hero
+import pl.birski.uiherolist.R
 import pl.birski.uiherolist.test.TAG_HERO_NAME
 import pl.birski.uiherolist.test.TAG_HERO_PRIMARY_ATTRIBUTE
 import java.lang.Math.round
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun HeroListItem(
     hero: Hero,
-    onSelectHero: (Int) -> Unit
-    // imageLoader: ImageLoader, // TODO
+    onSelectHero: (Int) -> Unit,
+    imageLoader: ImageLoader
 ) {
     Surface(
         modifier = Modifier
@@ -45,12 +53,20 @@ fun HeroListItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                // TODO(Replace with Image)
+            Image(
                 modifier = Modifier
                     .width(120.dp)
                     .height(70.dp)
-                    .background(Color.LightGray)
+                    .background(Color.LightGray),
+                painter = rememberImagePainter(
+                    hero.img,
+                    imageLoader = imageLoader,
+                    builder = {
+                        placeholder(if (isSystemInDarkTheme()) R.drawable.black_background else R.drawable.white_background)
+                    }
+                ),
+                contentDescription = hero.localizedName,
+                contentScale = ContentScale.Crop
             )
             Column(
                 modifier = Modifier

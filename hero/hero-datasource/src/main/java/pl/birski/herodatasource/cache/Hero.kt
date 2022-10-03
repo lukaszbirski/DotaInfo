@@ -23,8 +23,8 @@ fun Hero_Entity.toHero(): Hero {
             support = roleSupport?.toInt() == 1,
             pusher = rolePusher?.toInt() == 1
         ),
-        img = "${EndPoints.BASE_URL}$img",
-        icon = "${EndPoints.BASE_URL}$icon",
+        img = img,
+        icon = icon,
         baseHealth = baseHealth.toFloat(),
         baseHealthRegen = baseHealthRegen?.toFloat(),
         baseMana = baseMana.toFloat(),
