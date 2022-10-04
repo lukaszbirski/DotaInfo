@@ -12,15 +12,15 @@ import pl.birski.core.Logger
 import pl.birski.core.UIComponent
 import pl.birski.herointeractors.GetHeroesUseCase
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class HeroesListViewModel @Inject constructor(
-    private val getHeroes: GetHeroesUseCase
+    private val getHeroes: GetHeroesUseCase,
+    @Named("HeroListLogger") private val logger: Logger
 ) : ViewModel() {
 
     val state: MutableState<HeroListState> = mutableStateOf(HeroListState())
-
-    private val logger = Logger("HeroesListViewModel")
 
     init {
         getHeroes()
