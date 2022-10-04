@@ -6,26 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import pl.birski.core.DataState
-import pl.birski.core.Logger
-import pl.birski.core.UIComponent
+import dagger.hilt.android.AndroidEntryPoint
 import pl.birski.dotainfo.ui.theme.DotaInfoTheme
-import pl.birski.herointeractors.UseCaseFactory
-import pl.birski.uiherolist.HeroListState
 import pl.birski.uiherolist.components.HeroList
+import pl.birski.uiherolist.ui.HeroesListViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val state: MutableState<HeroListState> = mutableStateOf(HeroListState())
     private lateinit var imageLoader: ImageLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,43 +29,15 @@ class MainActivity : ComponentActivity() {
             .crossfade(true)
             .build()
 
-        val getHeroesUseCase = UseCaseFactory.build(
-            sqlDriver = AndroidSqliteDriver(
-                schema = UseCaseFactory.schema,
-                context = this,
-                name = UseCaseFactory.dbName
-            )
-        ).getHeroesUseCase
-        val logger = Logger("GetHeroesTest")
-        getHeroesUseCase.execute().onEach { dataState ->
-            when (dataState) {
-                is DataState.Response -> {
-                    when (dataState.uiComponent) {
-                        is UIComponent.Dialog -> {
-                            logger.log((dataState.uiComponent as UIComponent.Dialog).description)
-                        }
-                        is UIComponent.None -> {
-                            logger.log((dataState.uiComponent as UIComponent.None).message)
-                        }
-                    }
-                }
-                is DataState.Data -> {
-                    state.value = state.value.copy(heroes = dataState.data ?: listOf())
-                }
-                is DataState.Loading -> {
-                    state.value = state.value.copy(progressBarState = dataState.progressBarState)
-                }
-            }
-        }.launchIn(CoroutineScope(IO))
-
         setContent {
             DotaInfoTheme {
+                val viewModel: HeroesListViewModel = hiltViewModel()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
                     HeroList(
-                        state = state.value,
+                        state = viewModel.state.value,
                         imageLoader = imageLoader
                     )
                 }

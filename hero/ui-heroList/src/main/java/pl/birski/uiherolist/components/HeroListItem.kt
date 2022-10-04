@@ -1,6 +1,5 @@
 package pl.birski.uiherolist.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,8 +26,8 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import pl.birski.herodomain.Hero
 import pl.birski.uiherolist.R
-import pl.birski.uiherolist.test.TAG_HERO_NAME
-import pl.birski.uiherolist.test.TAG_HERO_PRIMARY_ATTRIBUTE
+import pl.birski.uiherolist.ui.test.TAG_HERO_NAME
+import pl.birski.uiherolist.ui.test.TAG_HERO_PRIMARY_ATTRIBUTE
 import java.lang.Math.round
 
 @OptIn(ExperimentalCoilApi::class)

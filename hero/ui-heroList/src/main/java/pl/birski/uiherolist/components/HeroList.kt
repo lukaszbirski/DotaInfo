@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import coil.ImageLoader
 import pl.birski.core.ProgressBarState
-import pl.birski.uiherolist.HeroListState
+import pl.birski.uiherolist.ui.HeroListState
 
 @Composable
 fun HeroList(
