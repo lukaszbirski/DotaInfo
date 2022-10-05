@@ -8,9 +8,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
+import pl.birski.dotainfo.ui.navigation.Screen
 import pl.birski.dotainfo.ui.theme.DotaInfoTheme
+import pl.birski.uiherodetail.HeroDetail
 import pl.birski.uiherolist.components.HeroList
 import pl.birski.uiherolist.ui.HeroesListViewModel
 import javax.inject.Inject
@@ -26,17 +33,48 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DotaInfoTheme {
-                val viewModel: HeroesListViewModel = hiltViewModel()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    HeroList(
-                        state = viewModel.state.value,
-                        imageLoader = imageLoader
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.HeroList.route,
+                        builder = {
+                            addHeroList(navController = navController, imageLoader = imageLoader)
+                            addHeroDetail()
+                        }
                     )
                 }
             }
         }
+    }
+}
+
+fun NavGraphBuilder.addHeroList(
+    navController: NavController,
+    imageLoader: ImageLoader
+) {
+    composable(
+        route = Screen.HeroList.route
+    ) {
+        val viewModel: HeroesListViewModel = hiltViewModel()
+        HeroList(
+            state = viewModel.state.value,
+            imageLoader = imageLoader,
+            navigateToDetailScreen = { heroId ->
+                navController.navigate("${Screen.HeroDetail.route}/$heroId")
+            }
+        )
+    }
+}
+
+fun NavGraphBuilder.addHeroDetail() {
+    composable(
+        route = Screen.HeroDetail.route + "/{heroId}",
+        arguments = Screen.HeroDetail.arguments
+    ) {
+        HeroDetail(it.arguments?.get("heroId") as Int)
     }
 }

@@ -23,7 +23,11 @@ class HeroesListViewModel @Inject constructor(
     val state: MutableState<HeroListState> = mutableStateOf(HeroListState())
 
     init {
-        getHeroes()
+        onTriggerEvent(HeroListEvents.GetHeroes)
+    }
+
+    fun onTriggerEvent(event: HeroListEvents) = when (event) {
+        is HeroListEvents.GetHeroes -> getHeroes()
     }
 
     private fun getHeroes() {

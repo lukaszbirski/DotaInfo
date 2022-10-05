@@ -52,6 +52,7 @@ dependencies {
     implementation(project(Modules.heroDomain))
     implementation(project(Modules.heroInteractors))
     implementation(project(Modules.uiHeroList))
+    implementation(project(Modules.uiHeroDetail))
 
     implementation(AndroidX.coreKtx)
     implementation(AndroidX.appCompat)
