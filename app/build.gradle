@@ -22,9 +22,20 @@ android {
     }
 
     buildTypes {
+
+        // for future usage as an example
+        def props = new Properties()
+        file('../tmp/config.properties').withInputStream { props.load(it) }
+
         release {
             minifyEnabled false
+            def key = props.getProperty("appcenter.release")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "APP_CENTER_KEY", '"30932905-96a5-4852-949c-50377bf872ae"'
+        }
+        debug {
+            def key = props.getProperty("appcenter.debug")
+            buildConfigField "String", "APP_CENTER_KEY", '"2c3a708e-3e2e-4353-947e-bb3ff8e352bd"'
         }
     }
     compileOptions {
@@ -73,4 +84,7 @@ dependencies {
     kapt(Hilt.compiler)
 
     implementation(SqlDelight.androidDriver)
+
+    implementation(AppCenter.analytics)
+    implementation(AppCenter.crashes)
 }
