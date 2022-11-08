@@ -14,6 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import dagger.hilt.android.AndroidEntryPoint
 import pl.birski.dotainfo.ui.navigation.Screen
 import pl.birski.dotainfo.ui.theme.DotaInfoTheme
@@ -30,6 +33,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AppCenter.start(
+            application,
+            BuildConfig.APP_CENTER_KEY,
+            Analytics::class.java,
+            Crashes::class.java
+        )
 
         setContent {
             DotaInfoTheme {
