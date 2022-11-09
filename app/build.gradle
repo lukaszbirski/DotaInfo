@@ -35,7 +35,7 @@ android {
         }
         debug {
             def key = props.getProperty("appcenter.debug")
-            buildConfigField "String", "APP_CENTER_KEY", '"2c3a708e-3e2e-4353-947e-bb3ff8e352bd"'
+            buildConfigField "String", "APP_CENTER_KEY", '""04e4fa6a-0cad-4d33-a24d-10b81a3d77fd""'
         }
     }
     compileOptions {
