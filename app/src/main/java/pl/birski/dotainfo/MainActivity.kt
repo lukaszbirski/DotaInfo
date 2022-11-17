@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import pl.birski.dotainfo.ui.navigation.Screen
 import pl.birski.dotainfo.ui.theme.DotaInfoTheme
 import pl.birski.uiherodetail.ui.HeroDetail
+import pl.birski.uiherodetail.ui.HeroDetailViewModel
 import pl.birski.uiherolist.components.HeroList
 import pl.birski.uiherolist.ui.HeroesListViewModel
 import javax.inject.Inject
@@ -75,6 +76,9 @@ fun NavGraphBuilder.addHeroDetail() {
         route = Screen.HeroDetail.route + "/{heroId}",
         arguments = Screen.HeroDetail.arguments
     ) {
-        HeroDetail(it.arguments?.get("heroId") as Int)
+        val viewModel: HeroDetailViewModel = hiltViewModel()
+        HeroDetail(
+            state = viewModel.state.value
+        )
     }
 }
