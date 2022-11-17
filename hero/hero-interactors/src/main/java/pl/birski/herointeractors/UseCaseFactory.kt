@@ -5,7 +5,8 @@ import pl.birski.herodatasource.cache.HeroCache
 import pl.birski.herodatasource.network.HeroService
 
 data class UseCaseFactory(
-    val getHeroesUseCase: GetHeroesUseCase
+    val getHeroesUseCase: GetHeroesUseCase,
+    val getHeroFromCacheUseCase: GetHeroFromCacheUseCase
 ) {
     companion object Factory {
         fun build(sqlDriver: SqlDriver): UseCaseFactory {
@@ -14,6 +15,9 @@ data class UseCaseFactory(
             return UseCaseFactory(
                 getHeroesUseCase = GetHeroesUseCase(
                     service = service,
+                    cache = cache
+                ),
+                getHeroFromCacheUseCase = GetHeroFromCacheUseCase(
                     cache = cache
                 )
             )

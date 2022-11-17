@@ -31,11 +31,12 @@ android {
             minifyEnabled false
             def key = props.getProperty("appcenter.release")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "APP_CENTER_KEY", '"b35a6846-f9dd-4c38-b8d1-6888432aaef6"'
         }
         debug {
             def key = props.getProperty("appcenter.debug")
-            buildConfigField "String", "APP_CENTER_KEY", '"04e4fa6a-0cad-4d33-a24d-10b81a3d77fd"'
+        }
+        debug {
+            def key = props.getProperty("appcenter.debug")
         }
     }
     compileOptions {

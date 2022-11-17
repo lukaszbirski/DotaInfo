@@ -14,13 +14,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
-import com.microsoft.appcenter.AppCenter
-import com.microsoft.appcenter.analytics.Analytics
-import com.microsoft.appcenter.crashes.Crashes
 import dagger.hilt.android.AndroidEntryPoint
 import pl.birski.dotainfo.ui.navigation.Screen
 import pl.birski.dotainfo.ui.theme.DotaInfoTheme
-import pl.birski.uiherodetail.HeroDetail
+import pl.birski.uiherodetail.ui.HeroDetail
+import pl.birski.uiherodetail.ui.HeroDetailViewModel
 import pl.birski.uiherolist.components.HeroList
 import pl.birski.uiherolist.ui.HeroesListViewModel
 import javax.inject.Inject
@@ -34,13 +32,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppCenter.start(
-            application,
-            BuildConfig.APP_CENTER_KEY,
-            Analytics::class.java,
-            Crashes::class.java
-        )
-
         setContent {
             DotaInfoTheme {
                 Surface(
@@ -53,7 +44,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.HeroList.route,
                         builder = {
                             addHeroList(navController = navController, imageLoader = imageLoader)
-                            addHeroDetail()
+                            addHeroDetail(imageLoader = imageLoader)
                         }
                     )
                 }
@@ -80,11 +71,17 @@ fun NavGraphBuilder.addHeroList(
     }
 }
 
-fun NavGraphBuilder.addHeroDetail() {
+fun NavGraphBuilder.addHeroDetail(
+    imageLoader: ImageLoader
+) {
     composable(
         route = Screen.HeroDetail.route + "/{heroId}",
         arguments = Screen.HeroDetail.arguments
     ) {
-        HeroDetail(it.arguments?.get("heroId") as Int)
+        val viewModel: HeroDetailViewModel = hiltViewModel()
+        HeroDetail(
+            state = viewModel.state.value,
+            imageLoader = imageLoader
+        )
     }
 }
