@@ -35,6 +35,9 @@ android {
         debug {
             def key = props.getProperty("appcenter.debug")
         }
+        debug {
+            def key = props.getProperty("appcenter.debug")
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
