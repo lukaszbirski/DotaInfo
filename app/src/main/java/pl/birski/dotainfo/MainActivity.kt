@@ -17,7 +17,7 @@ import coil.ImageLoader
 import dagger.hilt.android.AndroidEntryPoint
 import pl.birski.dotainfo.ui.navigation.Screen
 import pl.birski.dotainfo.ui.theme.DotaInfoTheme
-import pl.birski.uiherodetail.HeroDetail
+import pl.birski.uiherodetail.ui.HeroDetail
 import pl.birski.uiherolist.components.HeroList
 import pl.birski.uiherolist.ui.HeroesListViewModel
 import javax.inject.Inject

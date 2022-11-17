@@ -1,4 +1,4 @@
-package pl.birski.uiherodetail
+package pl.birski.uiherodetail.ui
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
